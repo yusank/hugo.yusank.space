@@ -9,3 +9,5 @@ category: "Go"
 
 > see more...
 
+Good job
+
