@@ -6,7 +6,6 @@ title = "Yusank`s Site"
 languageCode = "zh-CN"
 hasCJKLanguage = true
 # 版权信息（支持 Markdown）
-copyright = "[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)"
 
 # 主题选择
 theme = "meme"
@@ -96,11 +95,11 @@ uglyURLs = false
     # 邮箱
     email = "yusankurban@gmail.com"
     # 座右铭或简介
-    motto = "Viva La Vida"
+    motto = "Stay with light's"
     # 头像
     avatar = "/icons/apple-touch-icon.png"
     # 网站（默认值：baseURL）
-    website = ""
+    website = "http://hugo.yusank.space"
     # 推特
     twitter = ""
 
