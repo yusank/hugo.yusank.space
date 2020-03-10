@@ -21,7 +21,7 @@
             <webMaster>yusankurban@gmail.com (yusank)</webMaster>
         
         
-        <lastBuildDate>Tue, 10 Mar 2020 13:03:11 +0800</lastBuildDate>
+        <lastBuildDate>Tue, 10 Mar 2020 13:20:56 +0800</lastBuildDate>
         
             <atom:link rel="self" type="application/rss+xml" href="http://hugo.yusank.space/rss.xml" />
         
@@ -36,11 +36,11 @@
                 
                 
                 
-                    <description><![CDATA[<h1 id="go-channel">Go Channel</h1>
-<blockquote>
-<p>see more...</p>
+                    <description><![CDATA[<blockquote>
+<p>welcome~</p>
 </blockquote>
-<p>Good job</p>
+<p>This is a article of interpret go <code>channel</code> source code.</p>
+<p>I'll complete in short time.</p>
 ]]></description>
                 
                 
@@ -49,7 +49,29 @@
                 
                     
                         
+                            
+                                
+                                
+                                
+                                    <category domain="http://hugo.yusank.space/categories/go/">Go</category>
+                                
+                            
+                        
                     
+                        
+                            
+                                
+                                
+                                
+                                    <category domain="http://hugo.yusank.space/tags/go/">go</category>
+                                
+                            
+                                
+                                
+                                
+                                    <category domain="http://hugo.yusank.space/tags/channel/">channel</category>
+                                
+                            
                         
                     
                 

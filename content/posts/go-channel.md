@@ -2,12 +2,17 @@
 title: "Go Channel"
 date: 2020-03-06T17:24:41+08:00
 draft: true
-category: "Go"
+categories:
+- Go
+tags:
+- go
+- channel
+
 ---
 
-# Go Channel
+> welcome~
 
-> see more...
+This is a article of interpret go `channel` source code.
 
-Good job
+I'll complete in short time.
 
