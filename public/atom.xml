@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="zh-CN">
+    <title type="text">Yusank`s Site</title>
+    <subtitle type="html">分享技术文章和个人博客。</subtitle>
+    <updated>2020-03-10T13:03:11+08:00</updated>
+    <id>http://hugo.yusank.space/</id>
+    <link rel="alternate" type="text/html" href="http://hugo.yusank.space/" />
+    <link rel="self" type="application/atom+xml" href="http://hugo.yusank.space/atom.xml" />
+    <author>
+            <name>yusank</name>
+            <uri>http://hugo.yusank.space/</uri>
+            
+                <email>yusankurban@gmail.com</email>
+            </author>
+    
+    <generator uri="https://gohugo.io/" version="0.66.0">Hugo</generator>
+        <entry>
+            <title type="text">Go Channel</title>
+            <link rel="alternate" type="text/html" href="http://hugo.yusank.space/posts/go-channel/" />
+            <id>http://hugo.yusank.space/posts/go-channel/</id>
+            <updated>2020-03-09T19:31:28+08:00</updated>
+            <published>2020-03-06T17:24:41+08:00</published>
+            <author>
+                    <name>yusank</name>
+                    <uri>http://hugo.yusank.space/</uri>
+                    <email>yusankurban@gmail.com</email>
+                    </author>
+            <summary type="html"><![CDATA[Go Channel  see more...
+ Good job]]></summary>
+            
+                <content type="html"><![CDATA[<h1 id="go-channel">Go Channel</h1>
+<blockquote>
+<p>see more...</p>
+</blockquote>
+<p>Good job</p>
+]]></content>
+            
+            
+            
+            
+            
+                
+                    
+                
+                    
+                
+            
+        </entry>
+    
+        <entry>
+            <title type="text">My First Post</title>
+            <link rel="alternate" type="text/html" href="http://hugo.yusank.space/posts/my-first-post/" />
+            <id>http://hugo.yusank.space/posts/my-first-post/</id>
+            <updated>2020-03-09T19:55:51+08:00</updated>
+            <published>2020-03-06T16:14:29+08:00</published>
+            <author>
+                    <name>yusank</name>
+                    <uri>http://hugo.yusank.space/</uri>
+                    <email>yusankurban@gmail.com</email>
+                    </author>
+            <summary type="html"><![CDATA[Hello World !  fist page.
+ welcome!
+bye!]]></summary>
+            
+                <content type="html"><![CDATA[<h1 id="hello-world-">Hello World !</h1>
+<blockquote>
+<p>fist page.</p>
+</blockquote>
+<p>welcome!</p>
+<p>bye!</p>
+]]></content>
+            
+            
+            
+            
+            
+                
+                    
+                
+                    
+                
+            
+        </entry>
+    
+</feed>
