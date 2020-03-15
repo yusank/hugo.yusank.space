@@ -41,7 +41,7 @@ type hchan struct {
 
 	// lock protects all fields in hchan, as well as several
 	// fields in sudogs blocked on this channel.
-	lock mutex // 互斥锁，用于协程阻塞
+	lock mutex // 互斥锁
 }
 
 // 双向链表结构，其中每一个元素代表着等待读取或写入 channel 的协程
@@ -135,6 +135,12 @@ func makechan(t *chantype, size int) *hchan {
 
 ```go
 
+// entry point for c <- x from compiled code
+// 代码重 `c <- x` 编译时，会编译成该方法从而被调用
+func chansend1(c *hchan, elem unsafe.Pointer) {
+	chansend(c, elem, true, getcallerpc())
+}
+
 /*
  * generic single channel send/recv
  * If block is not nil,
@@ -147,33 +153,23 @@ func makechan(t *chantype, size int) *hchan {
  * been closed.  it is easiest to loop and re-run
  * the operation; we'll see that it's now closed.
  */
+// 向 channel 写入
+// c: channel
+// ep: 写入元素地址
+// block: 表示该 channel 是否被阻塞
+// callerpc: 
 func chansend(c *hchan, ep unsafe.Pointer, block bool, callerpc uintptr) bool {
 	if c == nil {
-		if !block {
-			return false
-		}
-		gopark(nil, nil, waitReasonChanSendNilChan, traceEvGoStop, 2)
-		throw("unreachable")
+		// return or panic
 	}
 
 	if raceenabled {
+    // 不同协程之前竞争写入
 		racereadpc(c.raceaddr(), callerpc, funcPC(chansend))
 	}
 
-	// Fast path: check for failed non-blocking operation without acquiring the lock.
-	//
-	// After observing that the channel is not closed, we observe that the channel is
-	// not ready for sending. Each of these observations is a single word-sized read
-	// (first c.closed and second c.recvq.first or c.qcount depending on kind of channel).
-	// Because a closed channel cannot transition from 'ready for sending' to
-	// 'not ready for sending', even if the channel is closed between the two observations,
-	// they imply a moment between the two when the channel was both not yet closed
-	// and not ready for sending. We behave as if we observed the channel at that moment,
-	// and report that the send cannot proceed.
-	//
-	// It is okay if the reads are reordered here: if we observe that the channel is not
-	// ready for sending and then observe that it is not closed, that implies that the
-	// channel wasn't closed during the first observation.
+
+  // 没有阻塞 && 未关闭 && （channel 为空且没有协程读取 或 channel 已满，直接返回 false）
 	if !block && c.closed == 0 && ((c.dataqsiz == 0 && c.recvq.first == nil) ||
 		(c.dataqsiz > 0 && c.qcount == c.dataqsiz)) {
 		return false
@@ -184,13 +180,16 @@ func chansend(c *hchan, ep unsafe.Pointer, block bool, callerpc uintptr) bool {
 		t0 = cputicks()
 	}
 
+  // 上锁 准备写
 	lock(&c.lock)
 
+  // 已关闭 解锁并 panic
 	if c.closed != 0 {
 		unlock(&c.lock)
 		panic(plainError("send on closed channel"))
 	}
 
+  // 从等待读取的队列中 拿出第一个协程，写入并发送到该协程
 	if sg := c.recvq.dequeue(); sg != nil {
 		// Found a waiting receiver. We pass the value we want to send
 		// directly to the receiver, bypassing the channel buffer (if any).
@@ -198,28 +197,39 @@ func chansend(c *hchan, ep unsafe.Pointer, block bool, callerpc uintptr) bool {
 		return true
 	}
 
+  // 如果 channel 缓存有空间，则向缓存中写入
+  // 此时是 channel 是有 buffer channel
 	if c.qcount < c.dataqsiz {
 		// Space is available in the channel buffer. Enqueue the element to send.
 		qp := chanbuf(c, c.sendx)
+    // 应该是协程之间竞争，暂时没有完全搞懂
 		if raceenabled {
 			raceacquire(qp)
 			racerelease(qp)
 		}
+    // 写入缓存
 		typedmemmove(c.elemtype, qp, ep)
+    // 写入位置加一
 		c.sendx++
+    // 如果写完 buffer 满了，将位置置位 0
 		if c.sendx == c.dataqsiz {
 			c.sendx = 0
 		}
+    // channel 数据总数加一
 		c.qcount++
+    // 解锁
 		unlock(&c.lock)
 		return true
 	}
 
+  // 如果是非阻塞类型 channel，则只返回
 	if !block {
 		unlock(&c.lock)
 		return false
 	}
 
+  // 如果是阻塞类型，则一直阻塞一直到被读取，保证数据在被读取之前不被内存回收
+  
 	// Block on the channel. Some receiver will complete our operation for us.
 	gp := getg()
 	mysg := acquireSudog()
@@ -227,21 +237,7 @@ func chansend(c *hchan, ep unsafe.Pointer, block bool, callerpc uintptr) bool {
 	if t0 != 0 {
 		mysg.releasetime = -1
 	}
-	// No stack splits between assigning elem and enqueuing mysg
-	// on gp.waiting where copystack can find it.
-	mysg.elem = ep
-	mysg.waitlink = nil
-	mysg.g = gp
-	mysg.isSelect = false
-	mysg.c = c
-	gp.waiting = mysg
-	gp.param = nil
-	c.sendq.enqueue(mysg)
-	goparkunlock(&c.lock, waitReasonChanSend, traceEvGoBlockSend, 3)
-	// Ensure the value being sent is kept alive until the
-	// receiver copies it out. The sudog has a pointer to the
-	// stack object, but sudogs aren't considered as roots of the
-	// stack tracer.
+
 	KeepAlive(ep)
 
 	// someone woke us up.
