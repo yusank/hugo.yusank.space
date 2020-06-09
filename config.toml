@@ -1,7 +1,7 @@
 ##########################################
 # 站点配置
 
-baseURL = "http://hugo.yusank.space/"
+baseURL = "http://hugo.yusank.cn/"
 title = "Yusank`s Site"
 languageCode = "zh-CN"
 hasCJKLanguage = true
