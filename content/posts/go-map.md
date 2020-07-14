@@ -32,7 +32,7 @@ type hmap struct {
 	hash0     uint32 // hash seed
 
 	buckets    unsafe.Pointer // 桶的数组
-	oldbuckets unsafe.Pointer // 旧桶的数组。map 扩容时将数组放在旧的桶里 只有被读取或被修改的值会被迁移的新的桶(buckets)里
+	oldbuckets unsafe.Pointer // 旧桶的数组。map 扩容时 原 buckets 变成 oldbuckets 并将数据逐步迁移，并非一次性迁移
 	nevacuate  uintptr        // 扩容进度记录
 
 	extra *mapextra // 额外信息。存储非指针数据（为了优化空间）
