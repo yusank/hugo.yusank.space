@@ -21,7 +21,7 @@ defaultContentLanguageInSubdir = false
 pluralizeListTitles = false
 
 # 摘要的字数限制
-summaryLength = 42
+summaryLength = 60
 
 # 是否开启 GitHub 风格的 Emoji 书写方式
 enableEmoji = false
@@ -393,7 +393,7 @@ uglyURLs = false
     # 列表页面
 
     # 宽度
-    listWidth = 36
+    listWidth = 54
     # 说明：如果留空（""），则用 42 作为默认值
     #      单位：em
 
@@ -645,7 +645,7 @@ uglyURLs = false
     # 注意：只支持 HSL 颜色值
 
     # 文章的内容宽度
-    postWidth = 36
+    postWidth = 54
     # 说明：如果留空（""），则用 42 作为默认值
     #      单位：em
 
@@ -740,7 +740,7 @@ uglyURLs = false
     #      的优先级高于此处
 
     # 是否显示目录标题
-    displayTOCTitle = false
+    displayTOCTitle = true
 
     # 是否显示数字（全局设置）
     displayTOCNum = true
