@@ -1,6 +1,7 @@
 ---
 title: "Go 语言开发及常用库的使用规范(语言篇)"
 date: 2020-11-25T16:24:41+08:00
+updated: 2020-11-30T19:46:41+08:00
 draft: false
 categories:
 - 技术
@@ -11,7 +12,6 @@ tags:
 
 语言篇，提出常见的开发上的不好的、不规范的写法，并给出更好的写法。
  [Uber](https://www.uber.com/) 是一家美国硅谷的科技公司，也是 Go 语言的早期 adopter。其开源了很多 golang 项目，诸如被 Gopher 圈熟知的 [zap](https://github.com/uber-go/zap)、[jaeger](https://github.com/jaegertracing/jaeger) 等。2018 年年末 Uber 将内部的 [Go 风格规范](https://github.com/uber-go/guide) 开源到 GitHub，经过一年的积累和更新，该规范已经初具规模，并受到广大 Gopher 的关注。本文是该规范的中文版本，并加以作者个人的一些看法，非 `uber` 官方的建议和看法 本人会加以标注。
-
 
 ## 介绍
 
@@ -1823,7 +1823,8 @@ func f() string {
 导入应该分为两组：
 
 - 标准库
-- 其他库
+- 当前项目内的引用
+- 第三方库
 
 默认情况下，这是 goimports 应用的分组。
 
@@ -1838,6 +1839,8 @@ import (
   "os"
   "go.uber.org/atomic"
   "golang.org/x/sync/errgroup"
+  "currentProject/model"
+  "currentProject/handler"
 )
 ```
 
@@ -1847,6 +1850,9 @@ import (
 import (
   "fmt"
   "os"
+  
+  "currentProject/model"
+  "currentProject/handler"
 
   "go.uber.org/atomic"
   "golang.org/x/sync/errgroup"
@@ -1864,7 +1870,7 @@ import (
 - 大多数使用命名导入的情况下，不需要重命名。
 - 简短而简洁。请记住，在每个使用的地方都完整标识了该名称。
 - 不用复数。例如`net/url`，而不是`net/urls`。
-- 不要用“common”，“util”，“shared”或“lib”。这些是不好的，信息量不足的名称。
+- 不要用“common”，“util”，“shared”或“lib”。这些是不好的，信息量不足的名称。(应该使用更具体的命名方式 如`httputil`, `mathutil` 等。)
 
 另请参阅 [Package Names] 和 [Go 包样式指南].
 
@@ -2707,7 +2713,7 @@ m := map[T1]T2{
 
 ### 表驱动测试
 
-当测试逻辑是重复的时候，通过  [subtests] 使用 table 驱动的方式编写 case 代码看上去会更简洁。
+当测试逻辑是重复的时候，通过  [subtests] 使用 table 驱动的方式编写 case 代码看上去会更简洁。而且目前编译器可以通过快捷键快速生成单元测试方法，可以帮助养成良好习惯。
 
 [subtests]: https://blog.golang.org/subtests
 
@@ -2965,7 +2971,3 @@ func Open(
   [golint]: https://github.com/golang/lint
   [govet]: https://golang.org/cmd/vet/
   [staticcheck]: https://staticcheck.io/
-
-# 常用库篇
-
-# 数据库篇
