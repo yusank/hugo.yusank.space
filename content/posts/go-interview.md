@@ -15,7 +15,7 @@ tags:
 
 [TOC]
 
-![xmind](https://github.com/yusank/hugo.yusank.space/xmind.png)
+![xmind](https://raw.githubusercontent.com/yusank/hugo.yusank.space/master/xmind.png)
 
 ## 数据库
 
